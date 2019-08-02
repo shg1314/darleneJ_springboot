@@ -7,8 +7,8 @@ public class IdentifiedEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1166131012203851341L;
-	static final long INVALID_ID = -1;
-	protected long id=INVALID_ID;
+	public static final long INVALID_ID = 0;
+	protected long id = INVALID_ID;
 	
 	public IdentifiedEntity() {
 		
@@ -28,7 +28,13 @@ public class IdentifiedEntity implements Serializable {
 		this.id = id;
 	}
 	
-	protected void throwWhenIdNotSetterAble() throws IdentifiedEntityAlreadyHasIDException{
-		if(this.id != INVALID_ID) throw new IdentifiedEntityAlreadyHasIDException("id(" + String.valueOf(this.id) + ")값이 이미 있습니다.");
+	public boolean isValidID(long id) {
+		if(id <= INVALID_ID) return false;
+		return true;
 	}
+	
+	protected void throwWhenIdNotSetterAble() throws IdentifiedEntityAlreadyHasIDException{
+		if(isValidID(this.id)==false) throw new IdentifiedEntityAlreadyHasIDException("id(" + String.valueOf(this.id) + ")값이 이미 있습니다.");
+	}
+	
 }
