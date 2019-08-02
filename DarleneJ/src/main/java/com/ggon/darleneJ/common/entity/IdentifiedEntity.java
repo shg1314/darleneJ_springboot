@@ -22,19 +22,23 @@ public class IdentifiedEntity implements Serializable {
 		return this.id;
 	}
 	
-	public void setId(long id) throws IdentifiedEntityAlreadyHasIDException,IdentifiedEntityIllegalArgumentException {
-		if(id <= INVALID_ID ) throw new IdentifiedEntityIllegalArgumentException("invalid id(" + String.valueOf(this.id) + ")");
-		throwWhenIdNotSetterAble();
-		this.id = id;
-	}
-	
-	public boolean isValidID(long id) {
+	public static boolean isValidID(long id) {
 		if(id <= INVALID_ID) return false;
 		return true;
 	}
 	
+	protected boolean canSetId() {
+		return isValidID(this.id) == false ? false : true; 
+	}
+	
+	public void setId(long id) throws IdentifiedEntityAlreadyHasIDException,IdentifiedEntityIllegalArgumentException {
+		if(isValidID(id) == false) throw new IdentifiedEntityIllegalArgumentException("invalid id(" + String.valueOf(this.id) + ")");
+		throwWhenIdNotSetterAble();
+		this.id = id;
+	}
+	
 	protected void throwWhenIdNotSetterAble() throws IdentifiedEntityAlreadyHasIDException{
-		if(isValidID(this.id)==false) throw new IdentifiedEntityAlreadyHasIDException("id(" + String.valueOf(this.id) + ")값이 이미 있습니다.");
+		if(canSetId()==false) throw new IdentifiedEntityAlreadyHasIDException("id(" + String.valueOf(this.id) + ")값이 이미 있습니다.");
 	}
 	
 }
