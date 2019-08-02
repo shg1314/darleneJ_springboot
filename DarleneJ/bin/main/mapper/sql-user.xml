@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<resultMap id="userResultMap" type="com.ggon.darleneJ.user.domain">
+<mapper namespace="darleneJ.mapper.IUserMapper">
+	<resultMap id="userResultMap" type="com.ggon.darleneJ.user.domain">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="email" column="email" />
 		<result property="role" column="role" />
 		<result property="createdAt" column="createdAt" />
 		<result property="updatedAt" column="updatedAt" />
-</resultMap>
+	</resultMap>
 
-<mapper namespace="darleneJ.mapper.UserMapper">
 	<select id="login" parameterType="Map" userResultMap="userResultMap">
 		<![CDATA[
 			SELECT
@@ -26,7 +26,7 @@
 			WHERE
 				email = #{email}
 				and
-				password = #{password}
+				password = #{pwd}
 				and
 				isDel = 'N'
 			ORDER BY id
