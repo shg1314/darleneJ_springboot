@@ -25,6 +25,16 @@ public class User extends IdentifiedEntity {
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
 	}
+	
+	private User(long id, String email, String name, String role, LocalDateTime createdDate,LocalDateTime updatedDate) throws UserIllegalArgumentException, UnknownUserRoleTypeException{
+		super(id);
+		this.email = email;
+		this.name = name;
+		this.role = UserRoleType.getUserRoleTypeForm(role);
+		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
+	}
+	
 	private User(String email, String name, UserRoleType role){
 		this.email = email;
 		this.name = name;
@@ -32,6 +42,10 @@ public class User extends IdentifiedEntity {
 	}
 	
 	public User loadUser(long id, String email, String name, UserRoleType role, LocalDateTime createdDate,LocalDateTime updatedDate) {
+		return new User(id, email, name, role, createdDate, updatedDate);
+	}
+	
+	public User loadUser(long id, String email, String name, String role, LocalDateTime createdDate,LocalDateTime updatedDate) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
 		return new User(id, email, name, role, createdDate, updatedDate);
 	}
 	
