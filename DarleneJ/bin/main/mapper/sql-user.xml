@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="darleneJ.mapper.UserMapper">
+	<select id="login" parameterType="Map" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT
+				 id, 
+				 name,
+				 email, 
+				 role, 
+				 createdAt, 
+				 updatedAt, 
+				 isDel
+			FROM
+				tb_user
+			WHERE
+				email = #{email}
+				and
+				password = #{password}
+				and
+				isDel = 'N'
+			ORDER BY id
+		]]>
+	</select>
+	
+</mapper>
