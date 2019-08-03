@@ -2,7 +2,7 @@ package com.ggon.darleneJ.common.entity;
 
 import java.io.Serializable;
 
-public class IdentifiedEntity implements Serializable {
+public abstract class Identifiable implements Serializable {
 	/**
 	 * 
 	 */
@@ -10,11 +10,11 @@ public class IdentifiedEntity implements Serializable {
 	public static final long INVALID_ID = 0;
 	protected long id = INVALID_ID;
 	
-	public IdentifiedEntity() {
+	public Identifiable() {
 		
 	}
 	
-	public IdentifiedEntity(long id) {
+	protected Identifiable(long id) {
 		this.id = id;
 	}
 	
@@ -28,11 +28,11 @@ public class IdentifiedEntity implements Serializable {
 	}
 	
 	protected boolean canSetId() {
-		return isValidID(this.id) == false ? false : true; 
+		return isValidID(this.id) == false ? true : false; 
 	}
 	
 	public void setId(long id) throws IdentifiedEntityAlreadyHasIDException,IdentifiedEntityIllegalArgumentException {
-		if(isValidID(id) == false) throw new IdentifiedEntityIllegalArgumentException("invalid id(" + String.valueOf(this.id) + ")");
+		if(isValidID(id) == false) throw new IdentifiedEntityIllegalArgumentException("invalid id(" + String.valueOf(id) + ")");
 		throwWhenIdNotSetterAble();
 		this.id = id;
 	}

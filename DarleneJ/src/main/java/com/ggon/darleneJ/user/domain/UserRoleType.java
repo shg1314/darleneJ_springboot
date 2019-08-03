@@ -1,12 +1,12 @@
 package com.ggon.darleneJ.user.domain;
 
-import org.assertj.core.util.Strings;
-
 public enum UserRoleType {
 	UNKNOWN,
 	CUSTOMER,
 	ADMIN,
 	MAINTAINER;
+	
+	
 	
     public String toString(){
         switch (this) {
@@ -17,18 +17,25 @@ public enum UserRoleType {
         }
         return null;
     }
+    
+	public static boolean isUnknown(UserRoleType role) {
+		return UserRoleType.UNKNOWN == role;
+	}
+	
 	public static boolean isCustomer(UserRoleType role) {
 		return UserRoleType.CUSTOMER == role;
 	}
+	
 	public static boolean isAdmin(UserRoleType role) {
 		return UserRoleType.ADMIN == role;
 	}
+	
 	public static boolean isMaintainer(UserRoleType role) {
 		return UserRoleType.MAINTAINER == role;
 	}
 	
-	public static UserRoleType getUserRoleTypeForm(String role) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
-		if(Strings.isNullOrEmpty(role)==true) throw new UserIllegalArgumentException("role is null or empty");
+	public static UserRoleType getEnum(String role) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
+		if((null == role) || (role.isEmpty() == true)) throw new UserIllegalArgumentException("role is null or empty");
 		UserRoleType roleType = UserRoleType.UNKNOWN; 
 		switch (role.toLowerCase()) {
 		case USER_ROLE_TYPE_CUSTOMER:

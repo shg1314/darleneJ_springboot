@@ -4,35 +4,40 @@ import java.time.LocalDateTime;
 import lombok.*;
 import com.ggon.darleneJ.user.domain.UserRoleType;
 import com.ggon.darleneJ.user.domain.UserNullValueException;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.ggon.darleneJ.common.entity.*;
 
 @ToString
 @EqualsAndHashCode(of = {"id", "email"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends IdentifiedEntity {
+public class User extends Entity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6037743307575376280L;
 	@Getter private String email = "";
 	@Getter private String name ="";
 	@Getter UserRoleType role = UserRoleType.UNKNOWN;
-	LocalDateTime createdDate = null;
-	LocalDateTime updatedDate = null;
+	LocalDateTime createdAt = null;
+	LocalDateTime updatedAt = null;
 		
 	
-	private User(long id, String email, String name, UserRoleType role, LocalDateTime createdDate,LocalDateTime updatedDate){
+	private User(long id, String email, String name, UserRoleType role, LocalDateTime createdAt,LocalDateTime updatedDate){
 		super(id);
 		this.email = email;
 		this.name = name;
 		this.role = role;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedDate;
 	}
 	
-	private User(long id, String email, String name, String role, LocalDateTime createdDate,LocalDateTime updatedDate) throws UserIllegalArgumentException, UnknownUserRoleTypeException{
+	private User(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) throws UserIllegalArgumentException, UnknownUserRoleTypeException{
 		super(id);
 		this.email = email;
 		this.name = name;
-		this.role = UserRoleType.getUserRoleTypeForm(role);
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
+		this.role = UserRoleType.getEnum(role);
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 	
 	private User(String email, String name, UserRoleType role){
@@ -41,39 +46,49 @@ public class User extends IdentifiedEntity {
 		this.role = role;
 	}
 	
-	public User loadUser(long id, String email, String name, UserRoleType role, LocalDateTime createdDate,LocalDateTime updatedDate) {
-		return new User(id, email, name, role, createdDate, updatedDate);
+	public User loadUser(long id, String email, String name, UserRoleType role, LocalDateTime createdAt,LocalDateTime updatedAt) {
+		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
-	public User loadUser(long id, String email, String name, String role, LocalDateTime createdDate,LocalDateTime updatedDate) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
-		return new User(id, email, name, role, createdDate, updatedDate);
+	public User loadUser(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
+		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
 	public User newUser(String email, String name, UserRoleType role) {
 		return new User(email,name,role);
 	}
 	
+	public void changeName(String name) throws UserIllegalArgumentException{
+		if(null == name  || name.isEmpty() == true) throw new UserIllegalArgumentException("name(" + name +") is null or empty");
+		this.name = name;
+	}
 	
-	boolean isCustomer() {
+	public void changeRole(UserRoleType role) throws UserIllegalArgumentException {
+		if(UserRoleType.isUnknown(role))  throw new UserIllegalArgumentException("unknown user role type");
+		this.role = role;
+	}
+	
+	public boolean isCustomer() {
 		return UserRoleType.isCustomer(this.role);
 	}
 	
-	boolean isAdmin() {
+	public boolean isAdmin() {
 		return UserRoleType.isAdmin(this.role);
 	}
 	
-	boolean isMaintainer() {
+	public boolean isMaintainer() {
 		return UserRoleType.isMaintainer(this.role);
 	}
 	
-	LocalDateTime creadtedDate() throws UserNullValueException{
-		if(null == createdDate) throw new UserNullValueException("생성날짜값이 NULL입니다.");
-		return createdDate;
+	@JsonGetter("createdAt")
+	LocalDateTime createdAt() throws UserNullValueException{
+		if(null == createdAt) throw new UserNullValueException("생성날짜값이 NULL입니다.");
+		return createdAt;
 	}
-	
-	LocalDateTime updatedDate() throws UserNullValueException{
-		if(null == updatedDate) throw new UserNullValueException("변날짜값이 NULL입니다.");
-		return updatedDate;
+	@JsonGetter("updatedAt")
+	LocalDateTime updatedAt() throws UserNullValueException{
+		if(null == updatedAt) throw new UserNullValueException("변날짜값이 NULL입니다.");
+		return updatedAt;
 	}
 }
 

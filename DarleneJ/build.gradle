@@ -7,7 +7,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.ggon'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -34,6 +34,7 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//implementation 'org.springframework.boot:spring-boot-starter-integration'
+	compile ('com.fasterxml.jackson.core:jackson-databind:2.9.8')
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	compileOnly 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
 	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'

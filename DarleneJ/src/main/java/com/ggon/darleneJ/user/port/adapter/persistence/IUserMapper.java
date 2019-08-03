@@ -9,7 +9,7 @@ import com.ggon.darleneJ.user.domain.User;
 
 @Mapper
 public interface IUserMapper {
-	public List<User> login(@Param("email") String email, @Param("pwd") String pwd);
+	public User login(@Param("email") String email, @Param("pwd") String pwd);
 	 
     //public User selectEmployer(User empNo);
  
