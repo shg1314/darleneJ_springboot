@@ -39,9 +39,8 @@ public class AuthenticationApplicationService {
 		return AccessToken.newToken(AuthUser.authUser(user));
 	}
 	
-	private AccessToken afterLoginSuccess(AccessToken token) {
+	private void afterLoginSuccess(AccessToken token) {
 		session.add(LOGGINED_USER_KEY, token);
-		return token;
 	}
 	
 	public AccessToken login(String email, String pwd){
@@ -53,5 +52,7 @@ public class AuthenticationApplicationService {
 		return token;
 	}
 	
-	
+	public void logout() {
+		session.removeIfExists(LOGGINED_USER_KEY);
+	}
 }

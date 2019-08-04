@@ -25,7 +25,7 @@ import com.ggon.darleneJ.auth.domain.AuthUser;
 import com.ggon.darleneJ.user.domain.User;
 
 @Controller
-public class UserController {
+public class AuthenticationController {
 	
 	public final static String USER_ATT_NAME = "crrentUser";
 	
@@ -59,5 +59,11 @@ public class UserController {
 		}
 		
 		return "darleneJ/users/userInfotest";//todo
+	}
+	
+	@RequestMapping(value="/logout.do", method=RequestMethod.POST)
+	public String logout(Model model) {
+		authService.logout();
+		return "/index";
 	}
 }

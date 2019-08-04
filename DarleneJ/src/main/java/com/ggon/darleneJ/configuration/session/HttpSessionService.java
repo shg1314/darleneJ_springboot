@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.ggon.darleneJ.common.application.AlreadyExistsException;
 import com.ggon.darleneJ.common.application.IApplicationSessionService;
 
 /**
@@ -24,7 +25,8 @@ public class HttpSessionService implements IApplicationSessionService{
 	
 	@Override
 	public void add(String name, Object obj) {
-		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
+		Object old = session.getAttribute(name);
+		if(null != old) throw new AlreadyExistsException("alread exists key(" + name + ")");
 		if(null == obj) new IllegalArgumentException("obj is null");
 		session.setAttribute(name, obj);
 	}
@@ -39,5 +41,12 @@ public class HttpSessionService implements IApplicationSessionService{
 	public void removeIfExists(String name) {
 		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
 		session.setAttribute(name, null);
+	}
+	
+	@Override
+	public void addIfExistsReplace(String name, Object obj) {
+		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
+		if(null == obj) new IllegalArgumentException("obj is null");
+		session.setAttribute(name, obj);
 	}
 }
