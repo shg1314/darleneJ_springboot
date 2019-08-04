@@ -23,20 +23,20 @@ public class HttpSessionService implements IApplicationSessionService{
 	HttpSession session;
 	
 	@Override
-	public void add(String name, Object obj) throws IllegalArgumentException{
+	public void add(String name, Object obj) {
 		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
 		if(null == obj) new IllegalArgumentException("obj is null");
 		session.setAttribute(name, obj);
 	}
 
 	@Override
-	public Object getIfExists(String name) throws IllegalArgumentException{
+	public Object getIfExists(String name) {
 		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
 		return session.getAttribute(name);
 	}
 
 	@Override
-	public void removeIfExists(String name) throws IllegalArgumentException {
+	public void removeIfExists(String name) {
 		if(null == name || name.isEmpty() == true) new IllegalArgumentException("name is null or empty");
 		session.setAttribute(name, null);
 	}

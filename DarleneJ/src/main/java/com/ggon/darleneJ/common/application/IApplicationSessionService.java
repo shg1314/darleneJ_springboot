@@ -11,7 +11,7 @@ package com.ggon.darleneJ.common.application;
  * 
  */
 public interface IApplicationSessionService {
-	public void add(String name, Object obj) throws IllegalArgumentException;
-	public Object getIfExists(String name)throws IllegalArgumentException;
-	public void removeIfExists(String name)throws IllegalArgumentException;
+	public void add(String name, Object obj);
+	public Object getIfExists(String name);
+	public void removeIfExists(String name);
 }

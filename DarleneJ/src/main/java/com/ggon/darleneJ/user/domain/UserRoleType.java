@@ -34,7 +34,7 @@ public enum UserRoleType {
 		return UserRoleType.MAINTAINER == role;
 	}
 	
-	public static UserRoleType getEnum(String role) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
+	public static UserRoleType getEnum(String role) {
 		if((null == role) || (role.isEmpty() == true)) throw new UserIllegalArgumentException("role is null or empty");
 		UserRoleType roleType = UserRoleType.UNKNOWN; 
 		switch (role.toLowerCase()) {

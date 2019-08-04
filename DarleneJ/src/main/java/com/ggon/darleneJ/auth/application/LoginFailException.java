@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ggon.darleneJ.user.application;
+package com.ggon.darleneJ.auth.application;
 
 /**
  * @FileName  : LoginFailException.java
@@ -10,7 +10,7 @@ package com.ggon.darleneJ.user.application;
  * @author    : ggon
  * 
  */
-public class LoginFailException extends Exception {
+public class LoginFailException extends RuntimeException {
 
 	/**
 	 * 

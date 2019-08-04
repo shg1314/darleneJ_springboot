@@ -31,13 +31,13 @@ public abstract class Identifiable implements Serializable {
 		return isValidID(this.id) == false ? true : false; 
 	}
 	
-	public void setId(long id) throws IdentifiedEntityAlreadyHasIDException,IdentifiedEntityIllegalArgumentException {
+	public void setId(long id) {
 		if(isValidID(id) == false) throw new IdentifiedEntityIllegalArgumentException("invalid id(" + String.valueOf(id) + ")");
 		throwWhenIdNotSetterAble();
 		this.id = id;
 	}
 	
-	protected void throwWhenIdNotSetterAble() throws IdentifiedEntityAlreadyHasIDException{
+	protected void throwWhenIdNotSetterAble() {
 		if(canSetId()==false) throw new IdentifiedEntityAlreadyHasIDException("id(" + String.valueOf(this.id) + ")값이 이미 있습니다.");
 	}
 	

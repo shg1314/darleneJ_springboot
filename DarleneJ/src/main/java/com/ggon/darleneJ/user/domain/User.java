@@ -31,7 +31,7 @@ public class User extends Entity {
 		this.updatedAt = updatedDate;
 	}
 	
-	private User(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) throws UserIllegalArgumentException, UnknownUserRoleTypeException{
+	private User(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt){
 		super(id);
 		this.email = email;
 		this.name = name;
@@ -50,7 +50,7 @@ public class User extends Entity {
 		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
-	public User loadUser(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) throws UserIllegalArgumentException, UnknownUserRoleTypeException {
+	public User loadUser(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) {
 		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
@@ -58,12 +58,12 @@ public class User extends Entity {
 		return new User(email,name,role);
 	}
 	
-	public void changeName(String name) throws UserIllegalArgumentException{
+	public void changeName(String name) {
 		if(null == name  || name.isEmpty() == true) throw new UserIllegalArgumentException("name(" + name +") is null or empty");
 		this.name = name;
 	}
 	
-	public void changeRole(UserRoleType role) throws UserIllegalArgumentException {
+	public void changeRole(UserRoleType role) {
 		if(UserRoleType.isUnknown(role))  throw new UserIllegalArgumentException("unknown user role type");
 		this.role = role;
 	}
@@ -81,12 +81,12 @@ public class User extends Entity {
 	}
 	
 	@JsonGetter("createdAt")
-	LocalDateTime createdAt() throws UserNullValueException{
+	LocalDateTime createdAt(){
 		if(null == createdAt) throw new UserNullValueException("생성날짜값이 NULL입니다.");
 		return createdAt;
 	}
 	@JsonGetter("updatedAt")
-	LocalDateTime updatedAt() throws UserNullValueException{
+	LocalDateTime updatedAt() {
 		if(null == updatedAt) throw new UserNullValueException("변날짜값이 NULL입니다.");
 		return updatedAt;
 	}

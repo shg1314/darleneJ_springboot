@@ -1,7 +1,7 @@
 package com.ggon.darleneJ.user.domain;
 
 
-public class UserNullValueException extends Exception {
+public class UserNullValueException extends RuntimeException {
 	/**
 	 * 
 	 */

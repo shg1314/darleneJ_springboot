@@ -1,9 +1,11 @@
-package com.ggon.darleneJ.user.application;
+package com.ggon.darleneJ.auth.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ggon.darleneJ.auth.domain.AccessToken;
+import com.ggon.darleneJ.auth.domain.AuthUser;
 import com.ggon.darleneJ.common.application.IApplicationSessionService;
 import com.ggon.darleneJ.user.domain.User;
 import com.ggon.darleneJ.user.port.adapter.persistence.IUserMapper;
@@ -24,25 +26,31 @@ public class AuthenticationApplicationService {
 		return session.getIfExists(LOGGINED_USER_KEY) != null ? true : false;
 	}
 	
-	public User getCurrentUserIfExists() {
-		return (User)session.getIfExists(LOGGINED_USER_KEY);
+	public AccessToken getCurrentLoginUserTokenIfExists() {
+		return (AccessToken)session.getIfExists(LOGGINED_USER_KEY);
 	}
 	
-	private void throwExceptionWhenAlreadyLogin() throws AlreadyLoginException{
-		User user = (User)getCurrentUserIfExists();
-		if(null != user) throw new AlreadyLoginException("사용자(" + user.getEmail() + ")가 이미 로그인 했습니다.");
+	private void throwExceptionWhenAlreadyLogin(){
+		AccessToken token = getCurrentLoginUserTokenIfExists();
+		if(null != token) throw new AlreadyLoginException("사용자(" + token.getUser().getEmail() + ")가 이미 로그인 했습니다.");
 	}
 	
-	private void afterLoginSuccess(User user) {
-		session.add(LOGGINED_USER_KEY, user);
+	private AccessToken newAccessToken(User user) {
+		return AccessToken.newToken(AuthUser.authUser(user));
 	}
 	
-	public User login(String email, String pwd) throws LoginFailException, Exception{
+	private AccessToken afterLoginSuccess(AccessToken token) {
+		session.add(LOGGINED_USER_KEY, token);
+		return token;
+	}
+	
+	public AccessToken login(String email, String pwd){
 		throwExceptionWhenAlreadyLogin();
 		User user = userMapper.login(email, pwd);
 		if(null == user) throw new LoginFailException("사용자(" + email + ") 로그인 실패"); 
-		afterLoginSuccess(user);
-		return user;
+		AccessToken token = newAccessToken(user);
+		afterLoginSuccess(token);
+		return token;
 	}
 	
 	

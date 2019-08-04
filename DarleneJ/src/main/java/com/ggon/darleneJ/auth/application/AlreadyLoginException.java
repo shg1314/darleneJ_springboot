@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ggon.darleneJ.user.application;
+package com.ggon.darleneJ.auth.application;
 
 /**
  * @FileName  : AlreadyLoginException.java
@@ -10,7 +10,7 @@ package com.ggon.darleneJ.user.application;
  * @author    : ggon
  * 
  */
-public class AlreadyLoginException extends Exception{
+public class AlreadyLoginException extends RuntimeException{
 
 	/**
 	 * 

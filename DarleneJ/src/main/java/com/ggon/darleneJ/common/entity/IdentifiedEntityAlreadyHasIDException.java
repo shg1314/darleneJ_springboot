@@ -1,6 +1,6 @@
 package com.ggon.darleneJ.common.entity;
 
-public class IdentifiedEntityAlreadyHasIDException extends Exception {
+public class IdentifiedEntityAlreadyHasIDException extends RuntimeException {
 	/**
 	 * 
 	 */

@@ -1,6 +1,6 @@
 package com.ggon.darleneJ.user.domain;
 
-public class UnknownUserRoleTypeException extends Exception {
+public class UnknownUserRoleTypeException extends RuntimeException {
 	/**
 	 * 
 	 */
