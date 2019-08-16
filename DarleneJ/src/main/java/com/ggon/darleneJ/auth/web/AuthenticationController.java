@@ -22,12 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggon.darleneJ.auth.application.AuthenticationApplicationService;
 import com.ggon.darleneJ.auth.domain.AccessToken;
 import com.ggon.darleneJ.auth.domain.AuthUser;
+import com.ggon.darleneJ.common.web.controller.CommonController;
 import com.ggon.darleneJ.user.domain.User;
 
 @Controller
-public class AuthenticationController {
+public class AuthenticationController extends CommonController{
 	
-	public final static String USER_ATT_NAME = "crrentUser";
 	
 	@Autowired
 	private AuthenticationApplicationService authService;
@@ -43,13 +43,14 @@ public class AuthenticationController {
 	
 	private void afterloginSuccess(AuthUser user, Model model) throws JsonProcessingException {
 		String userJson = json.writeValueAsString(user);
+		logger.debug("login 성공");
 		model.addAttribute("user", userJson);
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(@RequestParam(value="email") String email, @RequestParam(value="pwd") String pwd , Model model) {
+	public String login(@RequestParam(value="loginId") String loginId, @RequestParam(value="pwd") String pwd , Model model) {
 		try {
-			AccessToken accToken = authService.login(email,pwd);
+			AccessToken accToken = authService.login(loginId,pwd);
 			if(null!=accToken)
 				afterloginSuccess(accToken.getUser(),model);
 		}catch(JsonProcessingException ex) {

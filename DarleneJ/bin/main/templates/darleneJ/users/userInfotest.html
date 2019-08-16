@@ -4,17 +4,35 @@
 <meta charset="UTF-8">
 <title>user info only test</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
 <script  type="text/javascript"  th:inline="javascript">
-	var userJson = JSON.parse([[${user}]]);
-	console.log(userJson.id);
-	console.log(userJson.email);
-	console.log(userJson.createdAt);
+
 </script>
 </head>
 <body>
 
 
+  <h1> user info</h1>
+  <p>{{ user.id}}</p>
+  <p>{{ user.email}}</p>
+  <p>{{ user.role}}</p>
+  
 
+<script>
+    var app = new Vue({
+      el: '#app',
+      methods: {
+        getData: function(){
+          axios.post('http://localhost:8080/users/login')
+          .then(function(res){
+            console.log(res);
+          }).catch(function(e){
+            console.error(e);
+          })
+        }
+      }
+    })
+</script>
 	
 </body>
 </html>	

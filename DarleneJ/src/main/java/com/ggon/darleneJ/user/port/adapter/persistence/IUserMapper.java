@@ -11,9 +11,13 @@ import com.ggon.darleneJ.user.domain.User;
 public interface IUserMapper {
 	public User login(@Param("email") String email, @Param("pwd") String pwd);
 	 
-    //public User selectEmployer(User empNo);
+    public User getById(@Param("id") long id);
+    
+    public long deleteById(@Param("id") long id);
  
-    //public void insertEmployer(User vo);
+    public long insert(User u,@Param("pwd") String pwd);
+    
+    public List<User> getCustomers(@Param("offset") long offset,@Param("limit") int limit);
  
    // public int updateEmployer(User vo);
  

@@ -19,8 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * 
  */
 public class AuthInterceptor extends HandlerInterceptorAdapter  {
-	private static final String CURRENT_USER_ATT_NAME = "currentUser";
-	private static final String REDIRECT_URL_ATT_NAME = "destination";
+	public static final String REDIRECT_URL_ATT_NAME = "destination";
 	
     private void saveDestination(HttpServletRequest request) {
         String uri = request.getRequestURI();
@@ -38,30 +37,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter  {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        HttpSession httpSession = request.getSession();
-
-        if (httpSession.getAttribute(CURRENT_USER_ATT_NAME) == null) {
-            saveDestination(request);
-            response.sendRedirect("/users/login");
-            return false;
-        }
-
+        saveDestination(request);
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        HttpSession httpSession = request.getSession();
-        ModelMap modelMap = modelAndView.getModelMap();
-        Object user =  modelMap.get("user");
 
-        if (user != null) {
-            httpSession.setAttribute(CURRENT_USER_ATT_NAME, user);
 
-            Object destination = httpSession.getAttribute(REDIRECT_URL_ATT_NAME);
-            response.sendRedirect(destination != null ? (String) destination : "/");
-        }
     }
 }

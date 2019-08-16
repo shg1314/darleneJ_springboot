@@ -8,6 +8,7 @@ import com.ggon.darleneJ.auth.domain.AccessToken;
 import com.ggon.darleneJ.auth.domain.AuthUser;
 import com.ggon.darleneJ.common.application.IApplicationSessionService;
 import com.ggon.darleneJ.user.domain.User;
+import com.ggon.darleneJ.user.domain.UserRoleType;
 import com.ggon.darleneJ.user.port.adapter.persistence.IUserMapper;
 
 @Service
@@ -26,8 +27,18 @@ public class AuthenticationApplicationService {
 		return session.getIfExists(LOGGINED_USER_KEY) != null ? true : false;
 	}
 	
+	public void throwWhenHasNoAuthentication() {
+		if(false == isLogined()) throw new HasNoAuthentication("인증이 없습니다. 로그인 하세요");
+	}
+	
 	public AccessToken getCurrentLoginUserTokenIfExists() {
 		return (AccessToken)session.getIfExists(LOGGINED_USER_KEY);
+	}
+	
+	public AuthUser getCurrentLoginAccessUserIfExists() {
+		AccessToken token = (AccessToken)session.getIfExists(LOGGINED_USER_KEY);
+		if(null == token) return null;
+		return token.getUser();
 	}
 	
 	private void throwExceptionWhenAlreadyLogin(){
@@ -43,10 +54,10 @@ public class AuthenticationApplicationService {
 		session.add(LOGGINED_USER_KEY, token);
 	}
 	
-	public AccessToken login(String email, String pwd){
+	public AccessToken login(String loginId, String pwd){
 		throwExceptionWhenAlreadyLogin();
-		User user = userMapper.login(email, pwd);
-		if(null == user) throw new LoginFailException("사용자(" + email + ") 로그인 실패"); 
+		User user = userMapper.login(loginId, pwd);
+		if(null == user) throw new LoginFailException("사용자(" + loginId + ") 로그인 실패"); 
 		AccessToken token = newAccessToken(user);
 		afterLoginSuccess(token);
 		return token;
@@ -54,5 +65,34 @@ public class AuthenticationApplicationService {
 	
 	public void logout() {
 		session.removeIfExists(LOGGINED_USER_KEY);
+	}
+	
+	public boolean isCurrentUserAdmin() {
+		throwWhenHasNoAuthentication();
+		AuthUser user = getCurrentLoginAccessUserIfExists();
+		return (null == user) ? false : user.getUserRoleType().isAdmin();
+	}
+	
+	public boolean isCurrentUserCustomer() {
+		throwWhenHasNoAuthentication();
+		AuthUser user = getCurrentLoginAccessUserIfExists();
+		return (null == user) ? false : user.getUserRoleType().isCustomer();
+	}
+	
+	public boolean isCurrentUserMaintainer() {
+		throwWhenHasNoAuthentication();
+		AuthUser user = getCurrentLoginAccessUserIfExists();
+		return (null == user) ? false : user.getUserRoleType().isMaintainer();
+	}
+	public boolean hasEqualOrHigherAuthority(UserRoleType role) {
+		throwWhenHasNoAuthentication();
+		AuthUser user = getCurrentLoginAccessUserIfExists();
+		return (null == user) ? false : user.getUserRoleType().hasEqualOrHigherAuthority(role);
+	}
+	
+	public boolean hasHigherAuthority(UserRoleType role) {
+		throwWhenHasNoAuthentication();
+		AuthUser user = getCurrentLoginAccessUserIfExists();
+		return (null == user) ? false : user.getUserRoleType().hasHigherAuthority(role);
 	}
 }

@@ -10,6 +10,8 @@
 		<result property="createdAt" column="createdAt" />
 		<result property="updatedAt" column="updatedAt" />
 	</resultMap>
+	
+
 
 	<select id="login" parameterType="Map" resultMap="userResultMap">
 		<![CDATA[
@@ -32,5 +34,61 @@
 			ORDER BY id
 		]]>
 	</select>
+	
+		<select id="getById" parameterType="Map" resultMap="userResultMap">
+		<![CDATA[
+			SELECT
+				 id, 
+				 name,
+				 email, 
+				 role, 
+				 createdAt, 
+				 updatedAt, 
+				 isDel
+			FROM
+				tb_user
+			WHERE
+				id = #{id}
+				and
+				isDel = 0
+			ORDER BY id
+		]]>
+	</select>
+	
+	<select id="getCustomers" parameterType="Map" resultMap="userResultMap">
+		<![CDATA[
+			SELECT
+				 id, 
+				 name,
+				 email, 
+				 role, 
+				 createdAt, 
+				 updatedAt, 
+				 isDel
+			FROM
+				tb_user
+			WHERE
+				isDel = 0 and role = 'customer'
+			ORDER BY id asc
+			LIMT #{limit} OFFSET #{offset}
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="com.ggon.darleneJ.user.domain.User" useGeneratedKeys="true" keyProperty="id" >
+		<![CDATA[
+			insert into tb_user(name,email,password) 
+			 values(
+			 	#{name}	
+				#{email}
+				#{pwd}
+			)
+		]]>
+	</insert>
+	
+	<delete id="deleteById" parameterType="long" >
+		<![CDATA[
+			delete from tb_user where id = #{id}
+		]]>
+	</delete>
 	
 </mapper>

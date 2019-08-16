@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>user info only test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script  type="text/javascript"  th:inline="javascript">
+	var userJson = JSON.parse([[${user}]]);
+	console.log(userJson.id);
+	console.log(userJson.email);
+	console.log(userJson.createdAt);
+</script>
+</head>
+<body>
+
+
+
+	
+</body>
+</html>	

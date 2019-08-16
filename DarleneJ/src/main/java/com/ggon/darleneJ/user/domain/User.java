@@ -3,9 +3,9 @@ package com.ggon.darleneJ.user.domain;
 import java.time.LocalDateTime; 
 import lombok.*;
 import com.ggon.darleneJ.user.domain.UserRoleType;
+import com.ggon.darleneJ.common.domain.entity.*;
 import com.ggon.darleneJ.user.domain.UserNullValueException;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.ggon.darleneJ.common.entity.*;
 
 @ToString
 @EqualsAndHashCode(of = {"id", "email"})
@@ -46,15 +46,15 @@ public class User extends Entity {
 		this.role = role;
 	}
 	
-	public User loadUser(long id, String email, String name, UserRoleType role, LocalDateTime createdAt,LocalDateTime updatedAt) {
+	static public User loadUser(long id, String email, String name, UserRoleType role, LocalDateTime createdAt,LocalDateTime updatedAt) {
 		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
-	public User loadUser(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) {
+	static public User loadUser(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt) {
 		return new User(id, email, name, role, createdAt, updatedAt);
 	}
 	
-	public User newUser(String email, String name, UserRoleType role) {
+	static public User newUser(String email, String name,  UserRoleType role) {
 		return new User(email,name,role);
 	}
 	

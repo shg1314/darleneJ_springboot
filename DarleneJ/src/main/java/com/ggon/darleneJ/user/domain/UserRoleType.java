@@ -18,6 +18,8 @@ public enum UserRoleType {
         return null;
     }
     
+	
+    
 	public static boolean isUnknown(UserRoleType role) {
 		return UserRoleType.UNKNOWN == role;
 	}
@@ -32,6 +34,34 @@ public enum UserRoleType {
 	
 	public static boolean isMaintainer(UserRoleType role) {
 		return UserRoleType.MAINTAINER == role;
+	}
+	
+	public  boolean isUnknown() {
+		return UserRoleType.isUnknown(this);
+	}
+	
+	public boolean isCustomer() {
+		return UserRoleType.isCustomer(this);
+	}
+	
+	public boolean isAdmin() {
+		return UserRoleType.isAdmin(this);
+	}
+	
+	public boolean isMaintainer() {
+		return UserRoleType.isMaintainer(this);
+	}
+	
+	public boolean hasHigherAuthority(UserRoleType role) {
+		if(UNKNOWN == this) return false;
+		if(MAINTAINER == this) return true;
+		return this.ordinal() > role.ordinal() ? true : false; 
+	}
+	
+	public boolean hasEqualOrHigherAuthority(UserRoleType role) {
+		if(UNKNOWN == this) return false;
+		if(MAINTAINER == this) return true;
+		return this.ordinal() >= role.ordinal() ? true : false; 
 	}
 	
 	public static UserRoleType getEnum(String role) {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>user info only test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script  type="text/javascript"  >
+
+</script>
+</head>
+<body>
+<div id="app1" >
+  <h1> user info</h1>
+  <p>{{user.email}}</p>
+
+</div>
+
+<script>
+var app = new Vue({
+    el: '#app1',
+    data: {
+    	 user : {id : "", email : ""}
+    },
+    created() {
+    	this.user.email = $.cookie("email");
+    }
+    /*
+    beforeCreate() {
+    	var v = this;
+        axios.get('/users/crrUser')
+        .then(function(res){
+      	  v.user = res.data;
+        }).catch(function(e){
+          console.log(e);
+        });
+    }
+    */
+    
+  });
+  
+ 	
+</script>
+	
+</body>
+</html>	
