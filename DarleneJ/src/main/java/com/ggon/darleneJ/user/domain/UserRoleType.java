@@ -82,6 +82,7 @@ public enum UserRoleType {
 		}
 		return roleType;
 	}
+	
 	public static final String USER_ROLE_TYPE_UNKNOWN = "Unknown User Role Type";
 	public static final String USER_ROLE_TYPE_CUSTOMER = "customer";
 	public static final String USER_ROLE_TYPE_ADMIN = "admin";

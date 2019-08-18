@@ -35,7 +35,7 @@
 		]]>
 	</select>
 	
-		<select id="getById" parameterType="Map" resultMap="userResultMap">
+	<select id="getById" parameterType="Map" resultMap="userResultMap">
 		<![CDATA[
 			SELECT
 				 id, 
@@ -51,7 +51,38 @@
 				id = #{id}
 				and
 				isDel = 0
-			ORDER BY id
+		]]>
+	</select>
+	
+	<select id="getByEmail" parameterType="Map" resultMap="userResultMap">
+		<![CDATA[
+			SELECT
+				 id, 
+				 name,
+				 email, 
+				 role, 
+				 createdAt, 
+				 updatedAt, 
+				 isDel
+			FROM
+				tb_user
+			WHERE
+				email = #{email}
+				and
+				isDel = 0
+		]]>
+	</select>
+	
+	<select id="customerCount"  resultType="long">
+		<![CDATA[
+			SELECT
+				 count(*)
+			FROM
+				tb_user
+			WHERE
+				isDel = 0 
+				and
+				role = 'customer'
 		]]>
 	</select>
 	
@@ -70,25 +101,94 @@
 			WHERE
 				isDel = 0 and role = 'customer'
 			ORDER BY id asc
-			LIMT #{limit} OFFSET #{offset}
+			LIMIT #{limit} OFFSET #{offset}
 		]]>
 	</select>
 	
-	<insert id="insert" parameterType="com.ggon.darleneJ.user.domain.User" useGeneratedKeys="true" keyProperty="id" >
+	<select id="adminCount"  resultType="long">
 		<![CDATA[
-			insert into tb_user(name,email,password) 
-			 values(
-			 	#{name}	
-				#{email}
-				#{pwd}
-			)
+			SELECT
+				 count(*)
+			FROM
+				tb_user
+			WHERE
+				isDel = 0 
+				and
+				role = 'admin'
 		]]>
+	</select>
+	
+	<select id="getAdmins" parameterType="Map" resultMap="userResultMap">
+		<![CDATA[
+			SELECT
+				 id, 
+				 name,
+				 email, 
+				 role, 
+				 createdAt, 
+				 updatedAt, 
+				 isDel
+			FROM
+				tb_user
+			WHERE
+				isDel = 0 and role = 'admin'
+			ORDER BY id asc
+			LIMIT #{limit} OFFSET #{offset}
+		]]>
+	</select>
+	
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="user.id">
+		<![CDATA[
+			insert into tb_user(name,email,role,password) 
+			 values( #{name}, #{email}, #{role}, #{pwd});
+		]]>
+
 	</insert>
 	
-	<delete id="deleteById" parameterType="long" >
+	
+	
+	<update id="deleteById" parameterType="long" >
 		<![CDATA[
-			delete from tb_user where id = #{id}
+			update  tb_user set
+			isDel = 1,
+			updatedAt = NOW() 
+			where id = #{id}
+		]]>
+	</update>
+	
+	<update id="deleteByEmail" parameterType="String" >
+		<![CDATA[
+			update  tb_user set
+			isDel = 1,
+			updatedAt = NOW() 
+			where email = #{email}
+		]]>
+	</update>
+	
+	<update id="update" parameterType="Map" >
+		<![CDATA[
+			update  tb_user set
+			name = #{name},
+			role = #{role},
+			updatedAt = NOW()
+			where id = #{id}
+		]]>
+	</update>
+	
+	<update id="updatePassword" parameterType="Map" >
+		<![CDATA[
+			update  tb_user set
+			password = #{pwd},
+			updatedAt = NOW()
+			where id = #{id}
+		]]>
+	</update>
+	
+	
+	<delete id="hardDeleteByEmail" parameterType="Map" >
+		<![CDATA[
+			delete from  tb_user
+			where email = #{email}
 		]]>
 	</delete>
-	
 </mapper>

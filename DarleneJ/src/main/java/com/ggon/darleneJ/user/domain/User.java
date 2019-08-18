@@ -24,6 +24,10 @@ public class User extends Entity {
 	
 	private User(long id, String email, String name, UserRoleType role, LocalDateTime createdAt,LocalDateTime updatedDate){
 		super(id);
+		if(null == email || email.isEmpty()) throw new UserIllegalArgumentException("email is null or empty");
+		if(null == name || name.isEmpty()) throw new UserIllegalArgumentException("name is null or empty");
+		if(null == role || UserRoleType.isUnknown(role)) throw new UserIllegalArgumentException("role is null or unknown type");
+		
 		this.email = email;
 		this.name = name;
 		this.role = role;
@@ -33,6 +37,10 @@ public class User extends Entity {
 	
 	private User(long id, String email, String name, String role, LocalDateTime createdAt,LocalDateTime updatedAt){
 		super(id);
+		if(null == email || email.isEmpty()) throw new UserIllegalArgumentException("email is null or empty");
+		if(null == name || name.isEmpty()) throw new UserIllegalArgumentException("name is null or empty");
+		if(null == role || role.isEmpty() || UserRoleType.getEnum(role) == UserRoleType.UNKNOWN) throw new UserIllegalArgumentException("role is null or unknown type");
+		
 		this.email = email;
 		this.name = name;
 		this.role = UserRoleType.getEnum(role);
@@ -41,6 +49,10 @@ public class User extends Entity {
 	}
 	
 	private User(String email, String name, UserRoleType role){
+		if(null == email || email.isEmpty()) throw new UserIllegalArgumentException("email is null or empty");
+		if(null == name || name.isEmpty()) throw new UserIllegalArgumentException("name is null or empty");
+		if(null == role || UserRoleType.isUnknown(role)) throw new UserIllegalArgumentException("role is null or unknown type");
+		
 		this.email = email;
 		this.name = name;
 		this.role = role;
