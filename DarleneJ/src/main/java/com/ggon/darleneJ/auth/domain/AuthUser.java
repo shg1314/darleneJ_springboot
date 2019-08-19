@@ -32,6 +32,6 @@ public class AuthUser {
 	public long getId() { return user.getId();}
 	public String getName() { return user.getName();}
 	public String getEmail() {return user.getEmail();}
-	public UserRoleType getUserRoleType() {return user.getRole();}
+	public UserRoleType getRole() {return user.getRole();}
 
 }

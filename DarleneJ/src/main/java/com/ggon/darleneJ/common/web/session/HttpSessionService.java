@@ -25,8 +25,8 @@ public class HttpSessionService implements IApplicationSessionService{
 	
 	@Override
 	public void add(String name, Object obj) {
-		Object old = session.getAttribute(name);
-		if(null != old) throw new AlreadyExistsException("alread exists key(" + name + ")");
+		Object o = session.getAttribute(name);
+		if(null != o) throw new AlreadyExistsException("alread exists key(" + name + ")");
 		if(null == obj) new IllegalArgumentException("obj is null");
 		session.setAttribute(name, obj);
 	}

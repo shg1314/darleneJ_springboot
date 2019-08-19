@@ -70,29 +70,29 @@ public class AuthenticationApplicationService {
 	public boolean isCurrentUserAdmin() {
 		throwWhenHasNoAuthentication();
 		AuthUser user = getCurrentLoginAccessUserIfExists();
-		return (null == user) ? false : user.getUserRoleType().isAdmin();
+		return (null == user) ? false : user.getRole().isAdmin();
 	}
 	
 	public boolean isCurrentUserCustomer() {
 		throwWhenHasNoAuthentication();
 		AuthUser user = getCurrentLoginAccessUserIfExists();
-		return (null == user) ? false : user.getUserRoleType().isCustomer();
+		return (null == user) ? false : user.getRole().isCustomer();
 	}
 	
 	public boolean isCurrentUserMaintainer() {
 		throwWhenHasNoAuthentication();
 		AuthUser user = getCurrentLoginAccessUserIfExists();
-		return (null == user) ? false : user.getUserRoleType().isMaintainer();
+		return (null == user) ? false : user.getRole().isMaintainer();
 	}
 	public boolean hasEqualOrHigherAuthority(UserRoleType role) {
 		throwWhenHasNoAuthentication();
 		AuthUser user = getCurrentLoginAccessUserIfExists();
-		return (null == user) ? false : user.getUserRoleType().hasEqualOrHigherAuthority(role);
+		return (null == user) ? false : user.getRole().hasEqualOrHigherAuthority(role);
 	}
 	
 	public boolean hasHigherAuthority(UserRoleType role) {
 		throwWhenHasNoAuthentication();
 		AuthUser user = getCurrentLoginAccessUserIfExists();
-		return (null == user) ? false : user.getUserRoleType().hasHigherAuthority(role);
+		return (null == user) ? false : user.getRole().hasHigherAuthority(role);
 	}
 }
