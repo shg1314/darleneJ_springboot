@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ggon.darleneJ.product.port.adapter.persistence.IAttributeMapper">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="user.id">
+		<![CDATA[
+			insert into tb_attribute(attName, attTyp,attValueList) 
+			 values( #{name}, #{type}, #{possibleValues});
+		]]>
+	</insert>
+	
+	<update id="update" parameterType="Map" >
+		<![CDATA[
+			update  tb_attribute set
+			role = #{type},
+			attValueList = #{possibleValues}
+			where id = #{id}
+		]]>
+	</update>
+</mapper>

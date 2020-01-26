@@ -10,7 +10,7 @@ import java.util.HashMap; import java.util.Map; import java.util.Map.Entry; impo
  *	
  */
 public class CommandMap {
-	Map<String,Object> map = new HashMap<String,Object>();
+	private Map<String,Object> map = new HashMap<String,Object>();
 	
 	public Object get(String key){
 		return map.get(key);

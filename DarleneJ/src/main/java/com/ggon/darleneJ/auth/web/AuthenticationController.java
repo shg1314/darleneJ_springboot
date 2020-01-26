@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -41,18 +42,27 @@ public class AuthenticationController extends CommonController{
 		return "darleneJ/users/login";
 	}
 	
-	private void afterloginSuccess(AuthUser user, Model model) throws JsonProcessingException {
-		String userJson = json.writeValueAsString(user);
+	private void afterloginSuccess(AuthUser user, Model model, HttpServletResponse response) throws JsonProcessingException {
+		//String userJson = json.writeValueAsString(user);
 		logger.debug("login 성공");
-		model.addAttribute("user", userJson);
+		//model.addAttribute("user", userJson);
+		
+		addCookiAfterloginSuccess(user,response);
+	}
+	
+	private void addCookiAfterloginSuccess(AuthUser user, HttpServletResponse response) throws JsonProcessingException {
+		String userJson = json.writeValueAsString(user);
+		Cookie userCookie = new Cookie("user", userJson);
+		userCookie.setMaxAge(60*60*24*30);
+		response.addCookie( userCookie);
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(@RequestParam(value="loginId") String loginId, @RequestParam(value="pwd") String pwd , Model model) {
+	public String login(@RequestParam(value="loginId") String loginId, @RequestParam(value="pwd") String pwd , Model model,HttpServletResponse response) {
 		try {
 			AccessToken accToken = authService.login(loginId,pwd);
 			if(null!=accToken)
-				afterloginSuccess(accToken.getUser(),model);
+				afterloginSuccess(accToken.getUser(),model,response);
 		}catch(JsonProcessingException ex) {
 			//todo
 		}finally {
